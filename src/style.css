@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
-[x-cloak] { display: none !important; }
+[x-cloak] {
+  display: none !important;
+}
 
 :root {
   font-family: Inter, system-ui, Helvetica, Arial, sans-serif;
