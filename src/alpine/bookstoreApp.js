@@ -2,6 +2,9 @@ export default function bookstoreApp() {
   return {
     activeSidebar: null,
     activeCategory: null,
+
+    isDesktopMenuOpen: false,
+
     categories: {
       programming: {
         title: "Programming",
@@ -71,6 +74,13 @@ export default function bookstoreApp() {
 
     backToLevelOne() {
       this.activeCategory = null;
+    },
+
+    openDesktopMenu() {
+      this.isDesktopMenuOpen = true;
+    },
+    closeDesktopMenu() {
+      this.isDesktopMenuOpen = false;
     },
   };
 }
