@@ -10,16 +10,17 @@
   </head>
   <body>
     <div x-data="bookstoreApp()">
-      <header class="mt-5 border-b border-neutral-100">
+      <header class="relative z-50 border-b border-neutral-100 bg-white pt-5">
         <div class="flex flex-col">
           <a
-            class="md:hidden leading-8 text-2xl font-bold text-center text-slate-800"
-            >The Dev Bookstore</a
+            x-text="siteTitle"
+            class="text-center text-2xl leading-8 font-bold text-slate-800 md:hidden"
+            >Page title</a
           >
 
           <!-- Mobile Layout -->
 
-          <div class="md:hidden m-5 flex items-center justify-between">
+          <div class="m-5 flex items-center justify-between md:hidden">
             <button id="hamburgerButtonMobile" @click="openSidebar('nav')">
               <svg
                 width="22"
@@ -41,14 +42,15 @@
             <div class="flex space-x-3">
               <button
                 id="cartButtonMobile"
-                class="bg-neutral-100 rounded-full px-3 py-1"
+                class="rounded-full bg-neutral-100 px-3 py-1"
+                @click="openSidebar('cart')"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="32"
                   height="32"
                   viewBox="0 0 24 24"
-                  class="text-slate-500 size-6"
+                  class="size-6 text-slate-500"
                   stroke="currentColor"
                   stroke-width="0"
                 >
@@ -60,7 +62,7 @@
               </button>
               <button
                 id="accountButtonMobile"
-                class="bg-neutral-100 rounded-full px-3 py-1"
+                class="rounded-full bg-neutral-100 px-3 py-1"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -86,7 +88,7 @@
         <!-- Tablet and Desktop layout -->
 
         <div
-          class="md:m-6 2xl:my-10 2xl:mx-32 hidden md:flex items-center justify-between gap-4"
+          class="hidden items-center justify-between gap-4 md:m-6 md:flex 2xl:mx-32 2xl:my-10"
         >
           <div class="flex items-center space-x-8">
             <button
@@ -111,8 +113,10 @@
               </svg>
             </button>
 
-            <a class="text-left leading-8 text-2xl font-bold text-slate-800"
-              >The Dev Bookstore</a
+            <a
+              x-text="siteTitle"
+              class="text-left text-2xl leading-8 font-bold text-slate-800"
+              >Page title</a
             >
           </div>
 
@@ -122,103 +126,57 @@
             class="hidden 2xl:flex"
           >
             <ul class="flex space-x-10">
-              <li>
-                <button
-                  @click="openDesktopMenu(); openCategory('programming')"
-                  class="flex items-center"
-                >
-                  <span
-                    class="text-lg leading-7 font-bold text-slate-800 relative flex items-center after:absolute after:left-0 after:bottom-0 after:h-px after:w-0 after:bg-blue-800 after:transition-all after:duration-300 hover:after:w-full"
-                    >Programming</span
-                  >
+              <template x-for="item in navigation">
+                <li>
+                  <template x-if="item.type === 'category'">
+                    <button
+                      @click="openDesktopMenu(item.key)"
+                      class="flex items-center"
+                    >
+                      <span
+                        x-text="item.label"
+                        class="relative flex items-center text-lg leading-7 font-bold text-slate-800 after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-blue-800 after:transition-all after:duration-300 hover:after:w-full"
+                        >Nav label</span
+                      >
 
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="size-5 text-slate-500"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="m19.5 8.25-7.5 7.5-7.5-7.5"
-                    />
-                  </svg>
-                </button>
-              </li>
-              <li>
-                <a href="/computers-and-technology" class="flex items-center">
-                  <span
-                    class="text-lg leading-7 font-bold text-slate-800 relative flex items-center after:absolute after:left-0 after:bottom-0 after:h-px after:w-0 after:bg-blue-800 after:transition-all after:duration-300 hover:after:w-full"
-                    >Computers & Technology</span
-                  >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="size-5 text-slate-500"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                        />
+                      </svg>
+                    </button>
+                  </template>
 
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="size-5 text-slate-500"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="m19.5 8.25-7.5 7.5-7.5-7.5"
-                    />
-                  </svg>
-                </a>
-              </li>
-              <li>
-                <a href="/design-basics" class="flex items-center">
-                  <span
-                    class="text-lg leading-7 font-bold text-slate-800 relative flex items-center after:absolute after:left-0 after:bottom-0 after:h-px after:w-0 after:bg-blue-800 after:transition-all after:duration-300 hover:after:w-full"
-                    >Design Basics</span
-                  >
-
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="size-5 text-slate-500"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="m19.5 8.25-7.5 7.5-7.5-7.5"
-                    />
-                  </svg>
-                </a>
-              </li>
-              <li>
-                <a href="/about-us" class="flex items-center">
-                  <span
-                    class="text-lg leading-7 font-bold text-slate-800 relative flex items-center after:absolute after:left-0 after:bottom-0 after:h-px after:w-0 after:bg-blue-800 after:transition-all after:duration-300 hover:after:w-full"
-                    >About Us</span
-                  >
-                </a>
-              </li>
-              <li>
-                <a href="/contact" class="flex items-center">
-                  <span
-                    class="text-lg leading-7 font-bold text-slate-800 relative flex items-center after:absolute after:left-0 after:bottom-0 after:h-px after:w-0 after:bg-blue-800 after:transition-all after:duration-300 hover:after:w-full"
-                    >Contact</span
-                  >
-                </a>
-              </li>
+                  <template x-if="item.type === 'link'">
+                    <a :href="item.href" class="flex items-center">
+                      <span
+                        x-text="item.label"
+                        class="relative flex items-center text-lg leading-7 font-bold text-slate-800 after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-blue-800 after:transition-all after:duration-300 hover:after:w-full"
+                        >Nav label</span
+                      >
+                    </a>
+                  </template>
+                </li>
+              </template>
             </ul>
           </nav>
 
           <div class="flex space-x-10">
             <button
               id="cartButtonTablet"
-              class="bg-neutral-100 gap-1 flex items-center flex-row-reverse rounded-full px-4 py-2 cursor-pointer"
+              class="flex flex-row-reverse items-center gap-1 rounded-full bg-neutral-100 px-4 py-2"
+              @click="openSidebar('cart')"
             >
-              <span class="text-slate-800 text-base leading-6 font-medium"
+              <span class="text-base leading-6 font-medium text-slate-800"
                 >Cart</span
               >
 
@@ -227,7 +185,7 @@
                 width="32"
                 height="32"
                 viewBox="0 0 24 24"
-                class="text-slate-500 size-6"
+                class="size-6 text-slate-500"
                 stroke="currentColor"
                 stroke-width="0"
               >
@@ -239,9 +197,9 @@
             </button>
             <button
               id="accountButtonTablet"
-              class="bg-neutral-100 gap-1 flex items-center flex-row-reverse rounded-full px-4 py-2 cursor-pointer"
+              class="flex flex-row-reverse items-center gap-1 rounded-full bg-neutral-100 px-4 py-2"
             >
-              <span class="text-slate-800 text-base leading-6 font-medium"
+              <span class="text-base leading-6 font-medium text-slate-800"
                 >Account</span
               >
               <svg
@@ -263,15 +221,72 @@
             </button>
           </div>
         </div>
+        <!-- Desktop dropdown navigation -->
+        <div
+          role="menu"
+          aria-label="Desktop navigation"
+          id="desktopNavigationDrawer"
+          x-show="isDesktopMenuOpen === true"
+          @click.outside="closeDesktopMenu()"
+          x-cloak
+          x-transition:enter="transition ease-out duration-200 transform origin-top"
+          x-transition:enter-start="scale-y-85 opacity-0"
+          x-transition:enter-end="scale-y-100 opacity-100"
+          x-transition:leave="transition ease-in duration-200 transform origin-top"
+          x-transition:leave-start="scale-y-100 opacity-100"
+          x-transition:leave-end="scale-y-85 opacity-0"
+          class="absolute top-full left-0 z-50 h-72 w-full bg-white shadow-lg"
+        >
+          <nav
+            aria-label="Subcategory navigation"
+            class="flex h-full items-center justify-center px-5"
+          >
+            <ul
+              class="mx-11 ml-64 grid w-4/5 grid-cols-3 content-start items-center gap-x-20 gap-y-4"
+            >
+              <template
+                x-for="item in (categories[activeCategory]?.items ?? [])"
+                :key="item"
+              >
+                <li>
+                  <a
+                    href="#"
+                    class="text-lg leading-7 font-bold text-slate-800"
+                    x-text="item"
+                  ></a>
+                </li>
+              </template>
+            </ul>
+            <div class="flex w-1/5 items-center justify-center">slika</div>
+          </nav>
+        </div>
       </header>
 
-      <!-- Overlay -->
+      <!-- Overlay
 
+    <div
+      x-show="activeSidebar === 'nav' || activeSidebar === 'cart' || isDesktopMenuOpen === true"
+      x-transition.opacity
+      @click="closeSidebar(); closeDesktopMenu()"
+      class="fixed inset-0 z-40 bg-black/30"
+      x-cloak
+    ></div> -->
+
+      <!-- Overlay for nav/cart -->
       <div
-        x-show="activeSidebar === 'nav' || isDesktopMenuOpen === true"
+        x-show="activeSidebar === 'nav' || activeSidebar === 'cart'"
         x-transition.opacity
-        @click="closeSidebar() || closeDesktopMenu()"
-        class="fixed inset-0 z-40 bg-black/30"
+        @click="closeSidebar()"
+        class="fixed inset-0 z-60 bg-black/30"
+        x-cloak
+      ></div>
+
+      <!-- Overlay for desktop dropdown only -->
+      <div
+        x-show="isDesktopMenuOpen === true"
+        x-transition.opacity
+        @click="closeDesktopMenu()"
+        class="fixed inset-x-0 top-[88px] bottom-0 z-40 bg-black/30"
         x-cloak
       ></div>
 
@@ -289,11 +304,11 @@
         x-transition:leave="transition ease-in duration-200 transform"
         x-transition:leave-start="translate-x-0"
         x-transition:leave-end="-translate-x-full"
-        class="fixed left-0 top-0 z-50 h-full overflow-y-auto w-full md:max-w-sm bg-white shadow-lg"
+        class="fixed top-0 left-0 z-60 h-full w-full overflow-y-auto bg-white shadow-lg md:max-w-sm"
       >
         <div x-show="activeCategory === null">
-          <header class="flex items-center justify-between p-5">
-            <h2 class="text-lg text-slate-500 font-bold">Navigation</h2>
+          <header class="z-50 flex items-center justify-between p-5">
+            <h2 class="text-lg font-bold text-slate-500">Navigation</h2>
             <button
               id="closeNavSidebarButton"
               @click="closeSidebar()"
@@ -317,93 +332,38 @@
           </header>
           <nav aria-label="Mobile navigation">
             <ul>
-              <li
-                class="text-slate-800 font-bold text-base leading-6 border-b py-3 px-5 border-neutral-200"
-              >
-                <button
-                  @click="openCategory('programming')"
-                  class="flex items-center justify-between w-full"
+              <template x-for="item in navigation" :key="item.label">
+                <li
+                  class="border-b border-neutral-200 px-5 py-3 text-base leading-6 font-bold text-slate-800"
                 >
-                  <span>Programming</span>
+                  <template x-if="item.type === 'category'">
+                    <button
+                      @click="openCategory(item.key)"
+                      class="flex w-full items-center justify-between"
+                    >
+                      <span x-text="item.label">Nav label</span>
 
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="size-5 text-slate-500"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="m8.25 4.5 7.5 7.5-7.5 7.5"
-                    />
-                  </svg>
-                </button>
-              </li>
-
-              <li
-                class="text-slate-800 font-bold border-b py-3 px-5 border-neutral-200"
-              >
-                <button
-                  class="flex items-center justify-between w-full"
-                  @click="openCategory('computersAndTechnology')"
-                >
-                  <span>Computers & Technology</span>
-
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="size-5 text-slate-500"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="m8.25 4.5 7.5 7.5-7.5 7.5"
-                    />
-                  </svg>
-                </button>
-              </li>
-
-              <li
-                class="text-slate-800 font-bold border-b py-3 px-5 border-neutral-200"
-              >
-                <button
-                  class="flex items-center justify-between w-full"
-                  @click="openCategory('designBasics')"
-                >
-                  <span>Design Basics</span>
-
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke-width="1.5"
-                    stroke="currentColor"
-                    class="size-5 text-slate-500"
-                  >
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      d="m8.25 4.5 7.5 7.5-7.5 7.5"
-                    />
-                  </svg>
-                </button>
-              </li>
-
-              <li
-                class="text-slate-800 font-bold border-b py-3 px-5 border-neutral-200"
-              >
-                <a href="/about">About Us</a>
-              </li>
-
-              <li class="text-slate-800 font-bold py-3 px-5">
-                <a href="/contact">Contact</a>
-              </li>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="size-5 text-slate-500"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="m8.25 4.5 7.5 7.5-7.5 7.5"
+                        />
+                      </svg>
+                    </button>
+                  </template>
+                  <template x-if="item.type === 'link'">
+                    <a :href="item.href" x-text="item.label">Nav label</a>
+                  </template>
+                </li>
+              </template>
             </ul>
           </nav>
         </div>
@@ -411,7 +371,7 @@
         <!-- Navigation 2nd level mobile -->
 
         <div
-          class="fixed left-0 top-0 z-50 h-full overflow-y-auto w-full md:max-w-sm bg-white shadow-lg"
+          class="fixed top-0 left-0 z-50 h-full w-full overflow-y-auto bg-white shadow-lg md:max-w-sm"
           x-show="activeCategory !== null"
           x-cloak
           x-transition:enter="transition ease-out duration-200 transform"
@@ -423,7 +383,7 @@
         >
           <header class="flex items-center justify-between p-5">
             <h2
-              class="text-lg text-slate-500 leading-7 font-bold"
+              class="text-lg leading-7 font-bold text-slate-500"
               x-text="categories[activeCategory]?.title"
             ></h2>
 
@@ -448,7 +408,7 @@
           <div class="px-5 pb-6">
             <button
               @click="backToLevelOne()"
-              class="text-slate-800 gap-1 leading-5 text-sm font-medium flex items-center"
+              class="flex items-center gap-1 text-sm leading-5 font-medium text-slate-800"
               type="button"
             >
               <svg
@@ -472,7 +432,7 @@
           <div class="px-5 pb-5">
             <a
               href="#"
-              class="underline text-sm leading-5 font-medium text-slate-800"
+              class="text-sm leading-5 font-medium text-slate-800 underline"
               x-text="categories[activeCategory]?.viewAllLabel"
             ></a>
           </div>
@@ -486,7 +446,7 @@
                 <li>
                   <a
                     href="#"
-                    class="block leading-7 text-lg font-bold text-slate-800"
+                    class="block text-lg leading-7 font-bold text-slate-800"
                     x-text="item"
                   ></a>
                 </li>
@@ -496,64 +456,213 @@
         </div>
       </aside>
 
-      <!-- Desktop off-canvas navigation -->
+      <!-- Cart sidebar -->
 
       <aside
-        aria-label="Desktop navigation"
-        id="desktopNavigationDrawer"
-        x-show="isDesktopMenuOpen === true"
-        @click.outside="closeDesktopMenu()"
+        aria-label="Cart sidebar"
+        id="cartSidebar"
+        x-show="activeSidebar === 'cart'"
+        @click.outside="activeSidebar = null"
         x-cloak
         x-transition:enter="transition ease-out duration-200 transform"
-        x-transition:enter-start="-translate-y-full"
-        x-transition:enter-end="translate-y-0"
+        x-transition:enter-start="translate-x-full"
+        x-transition:enter-end="-translate-x-0"
         x-transition:leave="transition ease-in duration-200 transform"
-        x-transition:leave-start="translate-y-0"
-        x-transition:leave-end="-translate-y-full"
-        class="fixed left-0 top-35 z-50 h-72 w-full bg-white shadow-lg"
+        x-transition:leave-start="-translate-x-0"
+        x-transition:leave-end="translate-x-full"
+        class="fixed top-0 right-0 z-60 h-full w-full overflow-y-auto bg-white shadow-lg md:max-w-sm"
       >
-          <nav aria-label="Subcategory navigation" class="px-5 flex items-center justify-center h-full">
-            <ul class="grid items-center w-4/5 grid-cols-3 gap-x-20 gap-y-4 ml-64 mx-11 content-start">
-              <template
-                x-for="item in (categories[activeCategory]?.items ?? [])"
-                :key="item"
+        <div class="flex h-full flex-col">
+          <header class="flex items-center justify-between p-5">
+            <h2 class="text-lg font-bold text-slate-500">Cart</h2>
+            <button
+              id="closeCartSidebarButton"
+              @click="closeSidebar()"
+              aria-label="Close navigation menu"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="size-6 text-slate-800"
               >
-                <li>
-                  <a
-                    href="#"
-                    class="leading-7 text-lg font-bold text-slate-800"
-                    x-text="item"
-                  ></a>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M6 18 18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </header>
+          <section class="flex flex-1 flex-col">
+            <p
+              class="bg-neutral-100 px-6 py-1 text-base leading-6 font-normal text-slate-800"
+              x-show="cart.length > 0"
+            >
+              <span
+                x-text="cartCount()"
+                class="inline-block w-[3ch] text-left tabular-nums"
+                >0</span
+              >
+              <span> Items in cart</span>
+            </p>
+            <ul class="flex-1 space-y-2 overflow-y-auto px-6">
+              <template x-for="product in cart" :key="product.productId">
+                <li aria-label="Cart item" class="flex py-6">
+                  <article
+                    class="flex w-full items-center justify-between space-x-2"
+                  >
+                    <figure
+                      class="flex h-full shrink-0 content-start items-start"
+                    >
+                      <img
+                        src="/cartProduct1.png"
+                        alt="Cover of Building Micro Services"
+                      />
+                    </figure>
+                    <div class="flex h-full flex-col content-start space-y-3">
+                      <p
+                        class="text-sm leading-5 font-bold text-slate-800"
+                        x-text="product.title"
+                      >
+                        Book
+                      </p>
+                      <p
+                        aria-label="Price"
+                        class="text-sm leading-5 font-normal text-blue-800"
+                        x-text="formatPrice(product.price)"
+                      >
+                        €00.00
+                      </p>
+                      <div
+                        class="flex w-fit items-center gap-6 space-x-1 rounded-full bg-neutral-100 px-2 py-1.25"
+                      >
+                        <button @click="decreaseQuantity(product)">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="size-6"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="m19.5 8.25-7.5 7.5-7.5-7.5"
+                            />
+                          </svg>
+                        </button>
+
+                        <span
+                          x-text="product.quantity"
+                          class="w-[3ch] text-center tabular-nums"
+                          >1</span
+                        >
+
+                        <button @click="increaseQuantity(product)">
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="size-6"
+                          >
+                            <path
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                              d="m4.5 15.75 7.5-7.5 7.5 7.5"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+
+                    <button
+                      class="flex h-full content-start"
+                      @click="removeFromCart(product)"
+                      type="button"
+                      aria-label="Remove Building Micro Services from cart"
+                    >
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="size-6 text-neutral-400"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
+                        />
+                      </svg>
+                    </button>
+                  </article>
                 </li>
               </template>
+
+              <template x-if="cart.length === 0">
+                <p
+                  class="space-x-20 pt-24 text-center text-base leading-6 font-bold text-slate-800"
+                >
+                  Your cart is currently empty.
+                </p>
+              </template>
             </ul>
-            <div class="w-1/5 flex items-center justify-center">slika</div>
-          </nav>
+            <div
+              class="flex flex-col items-center space-y-5 bg-neutral-50 px-6 py-5"
+              x-show="cart.length > 0"
+            >
+              <p
+                class="flex w-full justify-between text-base leading-6 font-bold text-slate-800"
+              >
+                Cart Subtotal
+                <span
+                  class="text-xl leading-7 font-normal text-blue-800"
+                  x-text="formatPrice(cartSubtotal())"
+                ></span>
+              </p>
+              <hr class="w-full border-t border-neutral-300" />
+              <button
+                class="w-full rounded-full bg-orange-400 py-3 text-base leading-6 font-bold text-white"
+              >
+                Proceed to Checkout
+              </button>
+              <a
+                href="#"
+                class="w-fit border-b border-blue-800 text-base leading-6 font-normal text-slate-800"
+                >View and Edit Cart</a
+              >
+            </div>
+          </section>
+        </div>
       </aside>
 
       <!-- Main / Article section -->
-      <main class="md:m-6 2xl:my-10 2xl:mx-32">
-        <article class="flex items-center flex-col 2xl:flex-row">
+      <main class="md:m-6 2xl:mx-32 2xl:my-10">
+        <article class="flex flex-col items-center 2xl:flex-row">
           <div class="hidden 2xl:block 2xl:w-1/5">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos, quod.
           </div>
-          <section class="2xl:w-2/5 mt-3.5 mx-5 flex justify-center">
+          <section class="mx-5 mt-3.5 flex justify-center 2xl:w-2/5">
             <picture>
-              <!-- Desktop -->
               <source
-                srcset="/imageFrontDesktop.png"
+                :srcset="product.images.desktop"
                 media="(min-width: 1536px)"
               />
-              <!-- Tablet -->
               <source
-                srcset="/imageFrontTablet.png"
+                :srcset="product.images.tablet"
                 media="(min-width: 768px)"
               />
-              <!-- Mobile -->
               <img
-                src="/imageFrontMobile.png"
-                alt="Cover of a book"
-                class="w-full h-auto"
+                :src="product.images.mobile"
+                :alt="product.images.alt"
+                class="h-auto w-full"
               />
             </picture>
           </section>
@@ -561,101 +670,59 @@
           <section class="m-5 space-y-6 2xl:w-2/5">
             <div class="flex flex-col space-y-1">
               <p class="text-sm leading-5 font-bold text-slate-500">
-                <a href="/publishers/oreilly">O’REILLY</a>
+                <a
+                  :href="product.publisher.href"
+                  x-text="product.publisher.name"
+                  >Publisher name</a
+                >
               </p>
 
               <header>
                 <h1
                   id="product-title"
                   class="text-3xl leading-9 font-bold text-neutral-700"
+                  x-text="product.title"
                 >
-                  Building Micro-Frontends
+                  Product title
                 </h1>
               </header>
 
               <div class="flex items-center space-x-3">
                 <p class="flex items-center space-x-1">
                   <span class="flex text-amber-400">
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="size-4"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"
-                      />
-                    </svg>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="size-4"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"
-                      />
-                    </svg>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="size-4"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"
-                      />
-                    </svg>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="size-4"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"
-                      />
-                    </svg>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="currentColor"
-                      viewBox="0 0 24 24"
-                      stroke-width="1.5"
-                      stroke="currentColor"
-                      class="size-4"
-                    >
-                      <path
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"
-                      />
-                    </svg>
+                    <template x-for="star in product.rating" :key="star">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                        stroke-width="1.5"
+                        stroke="currentColor"
+                        class="size-4"
+                      >
+                        <path
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z"
+                        />
+                      </svg>
+                    </template>
                   </span>
-                  <strong class="text-sm text-neutral-700">5.0</strong>
-                  <a href="#reviews" class="text-sm font-bold text-neutral-400"
-                    >(22)</a
+                  <span
+                    class="text-sm font-bold text-neutral-700"
+                    x-text="product.ratingValue"
+                    >0.0</span
+                  >
+                  <a
+                    href="#reviews"
+                    class="text-sm font-bold text-neutral-400"
+                    x-text="`(${product.reviewCount})`"
+                    >(0)</a
                   >
                 </p>
                 <span class="text-neutral-300">|</span>
                 <a
-                  href="#write-review"
-                  class="text-sm leading-5 font-normal border-b border-blue-800"
+                  :href="product.writeReviewLink"
+                  class="border-b border-blue-800 text-sm leading-5 font-normal"
                   >Write a review</a
                 >
               </div>
@@ -665,22 +732,28 @@
               <div class="flex items-center space-x-3">
                 <p>
                   <data
-                    value="39.99"
-                    class="text-blue-800 text-2xl leading-8 font-normal"
-                    >€39.99</data
-                  >
+                    :value="currentPrice()"
+                    class="text-2xl leading-8 font-normal text-blue-800"
+                    x-text="formatPrice(currentPrice())"
+                  ></data>
                 </p>
-                <p
-                  class="bg-red-100 rounded-sm p-1.5 text-red-400 font-extrabold text-xs font-[certia]"
-                >
-                  -29%
-                </p>
+
+                <template x-if="hasDiscount()">
+                  <p
+                    class="rounded-sm bg-red-100 p-1.5 text-xs font-extrabold text-red-400"
+                    x-text="`-${discountPercent()}%`"
+                  ></p>
+                </template>
               </div>
-              <p>
-                <s class="font-medium text-xs leading-4 text-neutral-700"
-                  >€55.99</s
-                >
-              </p>
+
+              <template x-if="hasDiscount()">
+                <p>
+                  <s
+                    class="text-xs leading-4 font-medium text-neutral-700"
+                    x-text="formatPrice(product.price.base)"
+                  ></s>
+                </p>
+              </template>
             </div>
 
             <section class="flex flex-col space-y-4">
@@ -691,45 +764,29 @@
                 Details
               </h2>
 
-              <dl
-                class="flex flex-col space-y-2 md:space-y-8 md:flex-row md:space-x-14"
-              >
-                <div class="space-y-2 md:space-y-3.5">
+              <dl class="grid grid-cols-1 gap-y-3 md:grid-cols-2 md:gap-x-14">
+                <template x-for="detail in product.details" :key="detail.label">
                   <div
-                    class="flex text-sm leading-5 font-medium text-neutral-700 space-x-1"
+                    class="flex space-x-1 text-sm leading-5 font-medium text-neutral-700"
                   >
-                    <dt class="">By</dt>
+                    <dt x-text="`${detail.label}:`"></dt>
+
                     <dd>
-                      <a
-                        href="/authors/luca-mezzalira"
-                        class="border-b border-blue-800"
-                        >Luca Mezzalira</a
-                      >
+                      <template x-if="detail.href">
+                        <a
+                          :href="detail.href"
+                          class="border-b border-blue-800"
+                          x-text="detail.value"
+                        >
+                        </a>
+                      </template>
+
+                      <template x-if="!detail.href">
+                        <span x-text="detail.value"></span>
+                      </template>
                     </dd>
                   </div>
-
-                  <div
-                    class="flex text-sm leading-5 font-medium text-neutral-700 space-x-1"
-                  >
-                    <dt>Released</dt>
-                    <dd><time datetime="2021-11">November 2021</time></dd>
-                  </div>
-                </div>
-                <div class="space-y-2 md:space-y-3.5">
-                  <div
-                    class="flex text-sm leading-5 font-medium text-neutral-700 space-x-1"
-                  >
-                    <dt>Publisher(s):</dt>
-                    <dd>O’Reilly Media, Inc.</dd>
-                  </div>
-
-                  <div
-                    class="flex text-sm leading-5 font-medium text-neutral-700 space-x-1"
-                  >
-                    <dt>ISBN:</dt>
-                    <dd>9781492082996</dd>
-                  </div>
-                </div>
+                </template>
               </dl>
             </section>
 
@@ -741,32 +798,27 @@
                 Description
               </h2>
 
-              <p class="text-sm leading-5 font-medium text-neutral-700">
-                What's the answer to today's increasingly complex web
-                applications? Micro-frontends. Inspired by the microservices
-                model, this approach lets you break interfaces into separate
-                features managed by different teams of developers. With this
-                practical guide, Luca Mezzalira shows software architects, tech
-                leads, and software developers how to build and deliver
-                artifacts atomically rather than use a big bang deployment.
-              </p>
-              <p class="text-sm leading-5 font-medium text-neutral-700">
-                You'll learn how micro-frontends enable your team to choose any
-                library or framework. This gives your organization technical
-                flexibility and allows you to hire and retain a broad spectrum
-                of talent. Micro-frontends also support distributed or colocated
-                teams more efficiently. Pick up this book and learn how to get
-                started with this technological breakthrough right away.
-              </p>
+              <template
+                x-for="paragraph in product.description"
+                :key="paragraph"
+              >
+                <p
+                  class="text-sm leading-5 font-medium text-neutral-700"
+                  x-text="paragraph"
+                ></p>
+              </template>
             </section>
 
             <section>
-              <form action="/cart" method="post">
-                <label for="quantity" class="sr-only">Quantity</label>
-
+              <form
+                action="/cart"
+                method="post"
+                @submit.prevent="console.log(cart);"
+              >
                 <button
+                  @click="addToCart(product)"
                   type="submit"
-                  class="w-full bg-orange-400 rounded-full text-white py-3 font-bold leading-6"
+                  class="w-full rounded-full bg-orange-400 py-3 leading-6 font-bold text-white"
                 >
                   Add to Cart
                 </button>

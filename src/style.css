@@ -14,3 +14,12 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+button {
+  cursor: pointer;
+}
+
+button:focus-visible {
+  outline: 2px blue solid;
+  outline-offset: 2px;
+}
