@@ -3,6 +3,7 @@ export default function bookstoreApp() {
     activeSidebar: null,
     activeCategory: null,
     isDesktopMenuOpen: false,
+    isDropdownMenuOpen: false,
 
     siteTitle: "The Dev Bookstore",
 
@@ -132,6 +133,7 @@ export default function bookstoreApp() {
       ],
 
       images: {
+        cartImage: "/cartProduct1.png",
         mobile: "/imageFrontMobile.png",
         tablet: "/imageFrontTablet.png",
         desktop: "/imageFrontDesktop.png",
@@ -152,6 +154,7 @@ export default function bookstoreApp() {
       }
       this.cart.push({
         productId: product.id,
+        cartImage: product.images.cartImage,
         title: product.title,
         price: this.currentPrice(),
         quantity: 1,

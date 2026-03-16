@@ -13,6 +13,7 @@
       <header class="relative z-50 border-b border-neutral-100 bg-white pt-5">
         <div class="flex flex-col">
           <a
+            href="/"
             x-text="siteTitle"
             class="text-center text-2xl leading-8 font-bold text-slate-800 md:hidden"
             >Page title</a
@@ -21,7 +22,11 @@
           <!-- Mobile Layout -->
 
           <div class="m-5 flex items-center justify-between md:hidden">
-            <button id="hamburgerButtonMobile" @click="openSidebar('nav')">
+            <button
+              id="hamburgerButtonMobile"
+              @click="openSidebar('nav')"
+              aria-label="Open sidebar menu"
+            >
               <svg
                 width="22"
                 height="23"
@@ -63,6 +68,7 @@
               <button
                 id="accountButtonMobile"
                 class="rounded-full bg-neutral-100 px-3 py-1"
+                aria-label="Account dropdown"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -93,6 +99,7 @@
           <div class="flex items-center space-x-8">
             <button
               id="hamburgerButtonTablet"
+              aria-label="Open menu"
               @click="openSidebar('nav')"
               class="2xl:hidden"
             >
@@ -114,6 +121,7 @@
             </button>
 
             <a
+              href="/"
               x-text="siteTitle"
               class="text-left text-2xl leading-8 font-bold text-slate-800"
               >Page title</a
@@ -195,30 +203,51 @@
                 />
               </svg>
             </button>
-            <button
-              id="accountButtonTablet"
-              class="flex flex-row-reverse items-center gap-1 rounded-full bg-neutral-100 px-4 py-2"
+            <div
+              class="relative inline-block"
+              @click.outside="isDropdownMenuOpen = false"
             >
-              <span class="text-base leading-6 font-medium text-slate-800"
-                >Account</span
+              <button
+                @click="isDropdownMenuOpen = !isDropdownMenuOpen"
+                id="accountButtonTablet"
+                class="relative flex flex-row-reverse items-center gap-1 rounded-full bg-neutral-100 px-4 py-2"
+                aria-label="Account options"
               >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                width="22"
-                height="22"
-                stroke-width="2"
-                stroke="currentColor"
-                class="text-slate-500"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
-                />
-              </svg>
-            </button>
+                <span class="text-base leading-6 font-medium text-slate-800"
+                  >Account</span
+                >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  width="22"
+                  height="22"
+                  stroke-width="2"
+                  stroke="currentColor"
+                  class="text-slate-500"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+                  />
+                </svg>
+              </button>
+              <div class="absolute top-10" x-show="isDropdownMenuOpen === true">
+                <ul
+                  class="rounded bg-white shadow"
+                  id="account-menu"
+                  role="menu"
+                >
+                  <li class="block px-4 py-2" role="menuitem">
+                    <a href="/login">Log In</a>
+                  </li>
+                  <li class="block px-4 py-2" role="menuitem">
+                    <a href="/signup">Sign Up</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
         <!-- Desktop dropdown navigation -->
@@ -387,7 +416,7 @@
               x-text="categories[activeCategory]?.title"
             ></h2>
 
-            <button @click="closeSidebar()" aria-label="Close navigation menu">
+            <button @click="closeSidebar()" aria-label="Close navigation menu" aria-label="Close subcategory menu">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -478,7 +507,7 @@
             <button
               id="closeCartSidebarButton"
               @click="closeSidebar()"
-              aria-label="Close navigation menu"
+              aria-label="Close cart"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -518,8 +547,8 @@
                       class="flex h-full shrink-0 content-start items-start"
                     >
                       <img
-                        src="/cartProduct1.png"
-                        alt="Cover of Building Micro Services"
+                        :src="product.cartImage"
+                        :alt="'Cover of ' + product.title"
                       />
                     </figure>
                     <div class="flex h-full flex-col content-start space-y-3">
@@ -539,7 +568,10 @@
                       <div
                         class="flex w-fit items-center gap-6 space-x-1 rounded-full bg-neutral-100 px-2 py-1.25"
                       >
-                        <button @click="decreaseQuantity(product)">
+                        <button
+                          :aria-label="'Decrease quantity for ' + product.title"
+                          @click="decreaseQuantity(product)"
+                        >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
@@ -562,7 +594,10 @@
                           >1</span
                         >
 
-                        <button @click="increaseQuantity(product)">
+                        <button
+                          :aria-label="'Increase quantity for ' + product.title"
+                          @click="increaseQuantity(product)"
+                        >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             fill="none"
@@ -584,8 +619,7 @@
                     <button
                       class="flex h-full content-start"
                       @click="removeFromCart(product)"
-                      type="button"
-                      aria-label="Remove Building Micro Services from cart"
+                      :aria-label="'Remove ' + product.title + ' from cart'"
                     >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -813,10 +847,9 @@
               <form
                 action="/cart"
                 method="post"
-                @submit.prevent="console.log(cart);"
+                @submit.prevent="addToCart(product)"
               >
                 <button
-                  @click="addToCart(product)"
                   type="submit"
                   class="w-full rounded-full bg-orange-400 py-3 leading-6 font-bold text-white"
                 >
