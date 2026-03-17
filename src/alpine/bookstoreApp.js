@@ -185,12 +185,12 @@ export default function bookstoreApp() {
       return total;
     },
     cartSubtotal() {
-      let total = 0;
-      this.cart.forEach((item) => {
-        total += item.price * item.quantity;
-      });
-
-      return total;
+      return this.cart.reduce((acc, item) => {
+        return acc + item.price * item.quantity;
+      }, 0);
+      // this.cart.forEach((item) => {
+      //   total += item.price * item.quantity;
+      // });
     },
 
     hasDiscount() {
